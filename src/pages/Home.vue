@@ -6,7 +6,7 @@
           >Pesquisar</label
         >
         <input
-          v-model="searchPokemonField"
+          v-model="searchQuery"
           type="text"
           id="searchPokemonField"
           placeholder="Pesquisar..."
@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <main class="content" ref="content">
+  <main class="content">
     <div class="block">
       <ul id="array">
         <li
@@ -35,10 +35,6 @@
       </ul>
     </div>
   </main>
-
-  <div id="scroll-trigger" ref="infinitescrolltrigger">
-    <i class="fas fa-spinner faa-spin"></i>
-  </div>
 </template>
 
 <script>
@@ -50,8 +46,6 @@ export default {
   data() {
     return {
       pokemons: [],
-      searchPokemonField: "",
-      pokemonTypes: [],
       searchQuery: "",
     };
   },
@@ -62,45 +56,9 @@ export default {
       .then((response) => {
         this.pokemons = response.data.results;
       });
-    this.loadPokemons();
-    window.addEventListener("scroll", this.handleScroll);
   },
 
   methods: {
-    async loadPokemons() {
-      const response = await axios.get(
-        "https://pokeapi.co/api/v2/pokemon?limit=150"
-      );
-      this.pokemons = response.data.results;
-    },
-
-    async handleScroll() {
-      const content = this.$refs.content;
-      if (content) {
-        const scrollTop =
-          content.scrollTop || document.documentElement.scrollTop;
-        const scrollHeight =
-          content.scrollHeight || document.documentElement.scrollHeight;
-        const clientHeight =
-          content.clientHeight || document.documentElement.clientHeight;
-        if (scrollTop + clientHeight >= scrollHeight) {
-          await this.loadMorePokemons();
-        }
-      }
-    },
-
-    async loadMorePokemons() {
-      try {
-        const response = await axios.get(
-          "https://pokeapi.co/api/v2/pokemon?limit=150&offset=" +
-            this.pokemons.length
-        );
-        this.pokemons.push(...response.data.results);
-      } catch (error) {
-        console.error("Erro ao carregar mais pokémons:", error);
-      }
-    },
-
     get_id(pokemon) {
       const pokemonNumber = pokemon.url.split("/")[6];
       return pokemonNumber;
@@ -119,21 +77,17 @@ export default {
 
   computed: {
     pokemonsFiltered() {
-      if (this.searchQuery) {
-        const searchTerm = this.searchQuery.toLowerCase();
-        return this.pokemons.filter(
-          (pokemon) =>
-            pokemon.name.toLowerCase().includes(searchTerm) ||
-            this.get_id(pokemon).includes(searchTerm)
-        );
-      } else {
-        return this.pokemons;
-      }
-    },
-  },
-
-  beforeUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
+  if (this.searchQuery) {
+    const searchTerm = this.searchQuery.toLowerCase();
+    if (!isNaN(searchTerm)) {
+      return this.pokemons.filter(pokemon => this.get_id(pokemon).includes(searchTerm));
+    } else {
+      return this.pokemons.filter(pokemon => pokemon.name.toLowerCase().includes(searchTerm));
+    }
+  } else {
+    return this.pokemons;
+  }
+  }
   },
 };
 </script>
@@ -221,6 +175,4 @@ main {
   justify-content: flex-end;
   width: 95%;
 }
-
-
 </style>

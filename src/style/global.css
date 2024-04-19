@@ -33,20 +33,18 @@ main {
   grid-template-columns: repeat(
     auto-fill,
     minmax(300px, 1fr)
-  ); /* Define o número de colunas */
-  grid-gap: 20px; /* Espaçamento entre os elementos */
+  ); 
+  grid-gap: 20px; 
   justify-content: center;
   align-items: center;
   border-radius: 20px 20px 0 0;
   box-shadow: inset 3px 3px 3px grey;
-  overflow-y: auto;
-  height: calc(100vh - 50px);
 }
 
 @media (max-width: 768px) {
   main {
-    padding: 10px; /* Reduz o padding */
-    grid-template-columns: 1fr; /* Define uma coluna em telas pequenas */
+    padding: 10px;
+    grid-template-columns: 1fr; 
   }
 }
 
@@ -55,6 +53,6 @@ main {
     grid-template-columns: repeat(
       auto-fit,
       minmax(300px, 1fr)
-    ); /* Define três colunas em telas maiores */
+    ); 
   }
 }
