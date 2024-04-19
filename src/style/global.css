@@ -1,0 +1,60 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+html,
+body {
+  background-color: #dc0a2d;
+  padding-top: 5vh;
+}
+
+a {
+  text-decoration: none;
+  transition: 8.2s opacity;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+.container {
+  width: 95%;
+}
+
+main {
+  background-color: #ffffff;
+  padding: 20px;
+  margin: 0 auto;
+  width: 95%;
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(300px, 1fr)
+  ); /* Define o número de colunas */
+  grid-gap: 20px; /* Espaçamento entre os elementos */
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px 20px 0 0;
+  box-shadow: inset 3px 3px 3px grey;
+  overflow-y: auto;
+  height: calc(100vh - 50px);
+}
+
+@media (max-width: 768px) {
+  main {
+    padding: 10px; /* Reduz o padding */
+    grid-template-columns: 1fr; /* Define uma coluna em telas pequenas */
+  }
+}
+
+@media (min-width: 769px) {
+  main {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(300px, 1fr)
+    ); /* Define três colunas em telas maiores */
+  }
+}
