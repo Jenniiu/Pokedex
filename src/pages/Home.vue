@@ -23,7 +23,14 @@
           v-for="pokemon in pokemonsFiltered"
           :key="pokemon.name"
         >
+        <div class="itens">
+          <div class="types" v-if="pokemon.types">
+            <div class="type_item" v-for="(type, index) in pokemon.types" :key="index">
+              {{ type.type.name }}
+            </div>
+          </div>
           <h2 class="id">#{{ get_id(pokemon) }}</h2>
+        </div>
           <img
             :src="get_svg(pokemon)"
             :alt="pokemon.name"
@@ -51,19 +58,37 @@ export default {
   },
 
   mounted() {
-    axios
-      .get("https://pokeapi.co/api/v2/pokemon?limit=150")
-      .then((response) => {
-        this.pokemons = response.data.results;
-      });
+    this.loadPokemonData();
   },
 
   methods: {
+
+    async loadPokemonData() {
+      try {
+        const response = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=150");
+        this.pokemons = response.data.results;
+        await this.loadPokemonTypes();
+      } catch (error) {
+        console.error("Erro ao carregar dados dos Pokémon:", error);
+      }
+    },
+
+    async loadPokemonTypes() {
+      for (const pokemon of this.pokemons) {
+        try {
+          const response = await axios.get(pokemon.url);
+          pokemon.types = response.data.types;
+        } catch (error) {
+          console.error(`Erro ao carregar os tipos do Pokémon ${pokemon.name}:`, error);
+        }
+      }
+    },
+
     get_id(pokemon) {
       const pokemonNumber = pokemon.url.split("/")[6];
       return pokemonNumber;
     },
-
+    
     get_svg(pokemon) {
       const pokemonNumber = this.get_id(pokemon);
       const urlsvg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemonNumber}.svg`;
@@ -77,18 +102,20 @@ export default {
 
   computed: {
     pokemonsFiltered() {
-  if (this.searchQuery) {
-    const searchTerm = this.searchQuery.toLowerCase();
-    if (!isNaN(searchTerm)) {
-      return this.pokemons.filter(pokemon => this.get_id(pokemon).includes(searchTerm));
-    } else {
-      return this.pokemons.filter(pokemon => pokemon.name.toLowerCase().includes(searchTerm));
+      if (this.searchQuery) {
+        const searchTerm = this.searchQuery.toLowerCase();
+          return this.pokemons.filter(pokemon => {
+            const matchesId = this.get_id(pokemon).includes(searchTerm);
+            const matchesName = pokemon.name.toLowerCase().includes(searchTerm);
+            const matchesType = pokemon.types.some(type => type.type.name.toLowerCase().includes(searchTerm));
+          return matchesName || matchesType || matchesId;
+          });
+          
+          }else{
+            return this.pokemons;
+          }
     }
-  } else {
-    return this.pokemons;
   }
-  }
-  },
 };
 </script>
 
@@ -118,7 +145,7 @@ main {
 .pokemon {
   width: calc(100% - 5vw);
   margin: 2vw;
-  padding-top: 1vw;
+  padding-top: 0.5vw;
   background-color: #ffffff;
   text-align: center;
   border-radius: 8px 8px 8px 8px;
@@ -167,12 +194,31 @@ main {
   font-size: small;
 }
 
+.itens{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .id {
   font-family: "Poppins";
   font-size: smaller;
   font-weight: lighter;
-  display: flex;
-  justify-content: flex-end;
   width: 95%;
+  display: flex;
+  justify-content: end;
+  padding-right: 1vw;
+}
+
+.types{
+  font-family: "Poppins";
+  font-weight: bold;
+  color:#B8B8B8;
+  display: flex;
+  flex-direction: row;
+}
+
+.type_item{
+  padding-left: 0.8vw;
 }
 </style>
