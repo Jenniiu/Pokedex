@@ -17,7 +17,7 @@ export default {
 
 <style scoped>
 header {
-  background-color: #dc0a2d;
+  background-color: #B7B9D0;
   width: 100%;
   height: 9vh;
   display: flex;

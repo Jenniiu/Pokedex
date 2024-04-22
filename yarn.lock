@@ -1127,6 +1127,11 @@
   resolved "https://registry.npmjs.org/@leichtgewicht/ip-codec/-/ip-codec-2.0.5.tgz"
   integrity sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw==
 
+"@mdi/font@^7.4.47":
+  version "7.4.47"
+  resolved "https://registry.npmjs.org/@mdi/font/-/font-7.4.47.tgz"
+  integrity sha512-43MtGpd585SNzHZPcYowu/84Vz2a2g31TvPMTm9uTiCSWzaheQySUcSyUH/46fPnuPQWof2yd0pGBtzee/IQWw==
+
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
   resolved "https://registry.npmjs.org/@nicolo-ribaudo/eslint-scope-5-internals/-/eslint-scope-5-internals-5.1.1-v1.tgz"
@@ -6254,7 +6259,7 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@*, "vue@^2 || ^3.2.13", "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.13, vue@3.4.22:
+vue@*, "vue@^2 || ^3.2.13", "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.13, vue@^3.3.0, vue@3.4.22:
   version "3.4.22"
   resolved "https://registry.npmjs.org/vue/-/vue-3.4.22.tgz"
   integrity sha512-CIx7NiP+n5WHBCG/fDNaUPP4qbQ5CIa8XIHZE3HpfS/rb2vmSIsp74BxsZyrrGKF0vHW3GoToqP3l0hzrMTecw==
@@ -6272,6 +6277,11 @@ vue@^2.5.18:
   dependencies:
     "@vue/compiler-sfc" "2.7.16"
     csstype "^3.1.0"
+
+vuetify@^3.5.16:
+  version "3.5.16"
+  resolved "https://registry.npmjs.org/vuetify/-/vuetify-3.5.16.tgz"
+  integrity sha512-jyApfATreFMkgjvK0bL7ntZnr+p9TU73+4E3kX6fIvUitdAP9fltG7yj+v3k14HLqZRSNhTL1GhQ95DFx631zw==
 
 watchpack@^2.4.0, watchpack@^2.4.1:
   version "2.4.1"
