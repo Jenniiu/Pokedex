@@ -10,6 +10,7 @@ import "./style/global.css";
 import headerapp from "./components/headerapp";
 import Home from "./pages/Home";
 
+
 export default {
   name: "App",
   components: {
