@@ -81,6 +81,14 @@
     <img :src="selectedPokemon.sprites.front_shiny" :alt="selectedPokemon.name" />
     <img :src="selectedPokemon.sprites.back_shiny" :alt="selectedPokemon.name" />
     </li>
+    <div class="evolution-session">
+        <h3 class="evolution-name">Evolutions:</h3>
+        <ul class="evolution">
+          <li class="evolution-items" v-for="evolution in selectedPokemon.evolutions" :key="evolution.name">
+            {{ evolution.name }}
+          </li>
+        </ul>
+      </div>
     <div class="moves-session">
       <h3 class="name-moves">Moves</h3>
       <ul class="moves">
@@ -224,8 +232,32 @@ export default {
         this.selectedPokemon = response.data;
         this.selectedPokemon.movesList = response.data.moves.map(move => move.move.name);
         console.log(response.data);
+        axios.get (this.selectedPokemon.species.url)
+        .then((speciesResponse) => {
+          const evolutionChainUrl = speciesResponse.data.evolution_chain.url;
+          axios.get (evolutionChainUrl)
+          .then((evolutionChainResponse) => {
+            const evolutionChain = evolutionChainResponse.data.chain;
+            const evolutions = this.extractEvolutions(evolutionChain);
+            this.selectedPokemon.evolutions = evolutions;
+            this.popupVisible = true;
+          })
+        })
       });
-      this.popupVisible = true;
+    },
+
+    extractEvolutions (chain) {
+      const evolutions = [];
+      let current = chain;
+
+      while (current) {
+        const evolutionDetails = {
+          name: current.species.name,
+        };
+        evolutions.push(evolutionDetails);
+        current = current.evolves_to[0]
+      }
+      return evolutions;
     }
 
   },
@@ -468,6 +500,43 @@ main {
   font-size: larger;
 }
 
+.evolution-session {
+  display: flex;
+  flex-wrap: wrap;
+  width: 90%;
+  justify-content: start;
+  align-items: center;
+  row-gap: 1vh;
+  column-gap: 1vh;
+  padding-bottom: 1vh;
+}
+
+.evolution-items {
+  background-color: #b8b8b8;
+  color: #efefef;
+  border-radius: 1vh;
+  padding: 0.7vh;
+}
+
+.evolution {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1vh;
+  row-gap: 1vh;
+  align-items: center;
+  list-style-type: none;
+  color: #efefef;
+  border-radius: 1vh;
+  font-weight: bold;
+  justify-content: center;
+  font-size: x-small;
+}
+
+.evolution-name {
+  color:#b8b8b8;
+  font-size: medium;
+}
+
 .moves{
   display: flex;
   flex-wrap: wrap;
@@ -524,6 +593,7 @@ main {
   color:#B7B9D0;
   font-size: medium;
 }
+
 .games {
   display: flex;
   flex-wrap: wrap;
