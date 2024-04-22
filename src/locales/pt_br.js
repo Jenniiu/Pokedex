@@ -8,6 +8,9 @@ export const pt_br = {
     pokecardname : {
     name: 'Nome'
 },
+    pokecardevolutions : {
+    evolutions: 'Evoluções'
+},
     pokecardmoves : {
     moves: 'Movimentos'
     },

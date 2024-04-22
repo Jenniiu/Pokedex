@@ -14,7 +14,7 @@ const lenguages = {
 };
 
 const i18n = createI18n({
-    locale: 'es',
+    locale: 'pt_br',
     fallbackLocale: 'es',
     messages: lenguages,
 });
